@@ -1,4 +1,4 @@
-package goutils
+package strings
 
 import (
 	"strings"
@@ -133,4 +133,27 @@ func TestSmartRaw_ComplexScenarios(t *testing.T) {
 		output := SmartRaw("\n" + inputText)
 		assert.Equal(t, baseText, output)
 	})
+}
+
+func TestSmartRaw_Examples(t *testing.T) {
+	testCases := []struct {
+		name   string
+		input  string
+		output string
+	}{
+		{
+			name: "#1",
+			input: `
+				SELECT *
+				FROM TABLE1
+				  WHERE ID = 2`,
+			output: "SELECT *\nFROM TABLE1\n  WHERE ID = 2",
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			output := SmartRaw(tc.input)
+			assert.Equal(t, tc.output, output)
+		})
+	}
 }

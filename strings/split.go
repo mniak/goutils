@@ -1,4 +1,4 @@
-package goutils
+package strings
 
 import (
 	"regexp"
