@@ -60,3 +60,68 @@ func TestSmartRaw_SimpleScenarios_ShouldReturnVerbatim(t *testing.T) {
 		})
 	}
 }
+
+func TestSmartRaw_SimpleScenarios_Empties(t *testing.T) {
+	testCases := []struct {
+		name   string
+		input  string
+		output string
+	}{
+		{
+			name:   "Empty",
+			input:  "",
+			output: "",
+		},
+		{
+			name:   "Spaces",
+			input:  "              ",
+			output: "              ",
+		},
+		{
+			name:   "Spaces after new line",
+			input:  "\n              ",
+			output: "",
+		},
+		{
+			name:   "Empty after new line LF",
+			input:  "\n",
+			output: "",
+		},
+		{
+			name:   "New line only CRLF",
+			input:  "\r\n",
+			output: "",
+		},
+		{
+			name:   "New line only LFCR",
+			input:  "\n\r",
+			output: "",
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			output := SmartRaw(tc.input)
+			assert.Equal(t, tc.output, output)
+		})
+	}
+}
+
+func TestSmartRaw_ComplexScenarios(t *testing.T) {
+	testCases := []struct {
+		name   string
+		input  string
+		output string
+	}{
+		{
+			name:   "Start on second line LF",
+			input:  "\nhello world",
+			output: "hello world",
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			output := SmartRaw(tc.input)
+			assert.Equal(t, tc.output, output)
+		})
+	}
+}

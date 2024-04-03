@@ -18,6 +18,11 @@ func TestSmartSplitLines(t *testing.T) {
 			expected: []string{""},
 		},
 		{
+			name:     "Empty first line",
+			input:    "\ntwo\nthree",
+			expected: []string{"", "two", "three"},
+		},
+		{
 			name:     "Single line",
 			input:    "single line",
 			expected: []string{"single line"},
